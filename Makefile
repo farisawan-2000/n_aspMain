@@ -11,6 +11,7 @@ endif
 
 all: build/mp3.text.bin
 	@sha1sum -c mp3.sha1
+	@sha1sum -c mp3data.sha1
 
 tools/armips: tools/armips.cpp
 	$(CXX) $(CXXFLAGS) -fno-exceptions -fno-rtti -pipe $^ -o $@ -lpthread $(ARMIPS_FLAGS)
@@ -18,7 +19,7 @@ tools/armips: tools/armips.cpp
 
 build/mp3.text.bin: mp3.text.s tools/armips
 	cpp -P $< -o build/$< -I/usr/include/n64 $(DEFINES)
-	tools/armips -strequ CODE_FILE $@ -strequ DATA_FILE build/t3d.data.bin -temp scratch_space/.t3d  build/$<
+	tools/armips -strequ CODE_FILE $@ -strequ DATA_FILE build/mp3.data.bin -temp scratch_space/.t3d  build/$<
 
 
 dump_binary:
