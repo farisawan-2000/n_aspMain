@@ -54,7 +54,7 @@ entry:
 
 func_040010E0:
 @@b:
-/* [040010e0 / 060] 1440ffff */ bne r2, r0, @@b
+/* [040010e0 / 060] 1440ffff */ bnez r2, @@b
 /* [040010e4 / 064] 40023000 */  mfc0 r2, sp_dma_busy
 
 dispatch_next_acmd:
@@ -82,7 +82,7 @@ acmd_next:
 @@f:
 @@b:
 /* [0400112c / 0ac] 40023000 */ mfc0 r2, sp_dma_busy
-/* [04001130 / 0b0] 1440fffe */ bne r2, r0, @@b
+/* [04001130 / 0b0] 1440fffe */ bnez r2, @@b
 /* [04001134 / 0b4] 00000000 */  nop
 /* [04001138 / 0b8] 40803800 */ mtc0 r0, sp_semaphore
 /* [0400113c / 0bc] 40812000 */ mtc0 r1, sp_status
@@ -116,7 +116,7 @@ func_04001150:
 dma_read:
     mfc0 r4, sp_dma_full
 @@b:
-    bne r4, r0, @@b
+    bnez r4, @@b
      mfc0 r4, sp_dma_full
     mtc0 DMA_DEST, sp_mem_addr
     mtc0 DMA_SRC, sp_dram_addr
@@ -130,7 +130,7 @@ dma_read:
 dma_write:
     mfc0 r4, sp_dma_full
 @@b:
-    bne r4, r0, @@b
+    bnez r4, @@b
      mfc0 r4, sp_dma_full
     mtc0 DMA_WSRC, sp_mem_addr
     mtc0 DMA_WDEST, sp_dram_addr
@@ -140,7 +140,7 @@ dma_write:
 dma_wait_finish:
 @@b:
     mfc0 r4, sp_dma_busy
-    bne r4, r0, @@b
+    bnez r4, @@b
      nop
     jr ra
      nop
@@ -215,7 +215,7 @@ func_04001238:
 /* [040012c8 / 248] 0d000466 */ jal dma_write
 /* [040012cc / 24c] 2063ffff */ addi r3, r3, 0xffff
 /* [040012d0 / 250] 40013000 */ mfc0 r1, sp_dma_busy
-/* [040012d4 / 254] 1420ffff */ bne r1, r0, 0x040012d4
+/* [040012d4 / 254] 1420ffff */ bnez r1, 0x040012d4
 /* [040012d8 / 258] 40013000 */ mfc0 r1, sp_dma_busy
 /* [040012dc / 25c] 09000443 */ j acmd_next
 /* [040012e0 / 260] 00000000 */ nop
@@ -226,7 +226,7 @@ func_04001238:
 /* [040012f4 / 274] 0d00045f */ jal dma_read
 /* [040012f8 / 278] 2063ffff */ addi r3, r3, 0xffff
 /* [040012fc / 27c] 40013000 */ mfc0 r1, sp_dma_busy
-/* [04001300 / 280] 1420ffff */ bne r1, r0, 0x04001300
+/* [04001300 / 280] 1420ffff */ bnez r1, 0x04001300
 /* [04001304 / 284] 40013000 */ mfc0 r1, sp_dma_busy
 /* [04001308 / 288] 09000443 */ j acmd_next
 /* [0400130c / 28c] 23defff8 */ addi r30, r30, 0xfff8
@@ -349,7 +349,7 @@ func_04001238:
 /* [040014d4 / 454] ca771801 */ ldv $v23[0], 0x8(r19)
 /* [040014d8 / 458] ca771c01 */ ldv $v23[8], 0x8(r19)
 /* [040014dc / 45c] 40053000 */ mfc0 r5, sp_dma_busy
-/* [040014e0 / 460] 14a0ffff */ bne r5, r0, 0x040014e0
+/* [040014e0 / 460] 14a0ffff */ bnez r5, 0x040014e0
 /* [040014e4 / 464] 40053000 */ mfc0 r5, sp_dma_busy
 /* [040014e8 / 468] 00000020 */ add r0, r0, r0
 /* [040014ec / 46c] 09000546 */ j sub_04001518
@@ -477,7 +477,7 @@ sub_04001518:
 /* [040016d0 / 650] 22820000 */ addi r2, r20, 0x0
 /* [040016d4 / 654] 23defff8 */ addi r30, r30, 0xfff8
 /* [040016d8 / 658] 40053000 */ mfc0 r5, sp_dma_busy
-/* [040016dc / 65c] 14a0ffff */ bne r5, r0, 0x040016dc
+/* [040016dc / 65c] 14a0ffff */ bnez r5, 0x040016dc
 /* [040016e0 / 660] 40053000 */ mfc0 r5, sp_dma_busy
 /* [040016e4 / 664] 09000443 */ j acmd_next
 /* [040016e8 / 668] 00000024 */ and r0, r0, r0
@@ -527,7 +527,7 @@ sub_04001518:
 /* [04001798 / 718] ca930f08 */ lsv $v19[14], 0x10(r20)
 /* [0400179c / 71c] ca930809 */ lsv $v19[0], 0x12(r20)
 /* [040017a0 / 720] 40053000 */ mfc0 r5, sp_dma_busy
-/* [040017a4 / 724] 14a0ffff */ bne r5, r0, 0x040017a4
+/* [040017a4 / 724] 14a0ffff */ bnez r5, 0x040017a4
 /* [040017a8 / 728] 40053000 */ mfc0 r5, sp_dma_busy
 /* [040017ac / 72c] c82f1000 */ llv $v15[0], 0x0(r1)
 /* [040017b0 / 730] 12400016 */ beq r18, r0, 0x0400180c
@@ -637,7 +637,7 @@ sub_04001518:
 /* [04001950 / 8d0] 0d000466 */ jal dma_write
 /* [04001954 / 8d4] eaee207f */ sqv $v14[0], -0x10(r23)
 /* [04001958 / 8d8] 40053000 */ mfc0 r5, sp_dma_busy
-/* [0400195c / 8dc] 14a0ffff */ bne r5, r0, 0x0400195c
+/* [0400195c / 8dc] 14a0ffff */ bnez r5, 0x0400195c
 /* [04001960 / 8e0] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001964 / 8e4] 09000443 */ j acmd_next
 /* [04001968 / 8e8] 00000000 */ nop
@@ -690,7 +690,7 @@ sub_04001518:
 /* [04001a24 / 9a4] 2294fffe */ addi r20, r20, 0xfffe
 /* [04001a28 / 9a8] ca952802 */ lrv $v21[0], 0x20(r20)
 /* [04001a2c / 9ac] 40053000 */ mfc0 r5, sp_dma_busy
-/* [04001a30 / 9b0] 14a0ffff */ bne r5, r0, 0x04001a30
+/* [04001a30 / 9b0] 14a0ffff */ bnez r5, 0x04001a30
 /* [04001a34 / 9b4] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001a38 / 9b8] 0900069f */ j 0x04001a7c
 /* [04001a3c / 9bc] c83e1c00 */ ldv $v30[8], 0x0(r1)
@@ -732,7 +732,7 @@ sub_04001518:
 /* [04001acc / a4c] 0d000466 */ jal dma_write
 /* [04001ad0 / a50] eafe207f */ sqv $v30[0], -0x10(r23)
 /* [04001ad4 / a54] 40053000 */ mfc0 r5, sp_dma_busy
-/* [04001ad8 / a58] 14a0ffff */ bne r5, r0, 0x04001ad8
+/* [04001ad8 / a58] 14a0ffff */ bnez r5, 0x04001ad8
 /* [04001adc / a5c] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001ae0 / a60] 09000443 */ j acmd_next
 /* [04001ae4 / a64] 00000000 */ nop
@@ -760,7 +760,7 @@ sub_04001518:
 /* [04001b38 / ab8] 23010000 */ addi r1, r24, 0x0
 /* [04001b3c / abc] 40042800 */ mfc0 r4, sp_dma_full
 
-/* [04001b40 / ac0] 1480ffff */ bne r4, r0, 0x04001b40
+/* [04001b40 / ac0] 1480ffff */ bnez r4, 0x04001b40
 /* [04001b44 / ac4] 40042800 */  mfc0 r4, sp_dma_full
 /* [04001b48 / ac8] 40810000 */ mtc0 r1, sp_mem_addr
 /* [04001b4c / acc] 40820800 */ mtc0 r2, sp_dram_addr
@@ -771,7 +771,7 @@ sub_04001518:
 /* [04001b60 / ae0] c81f2005 */ lqv $v31[0], 0x50(dmem)
 /* [04001b64 / ae4] c8192004 */ lqv $v25[0], 0x40(dmem)
 /* [04001b68 / ae8] 40053000 */ mfc0 r5, sp_dma_busy
-/* [04001b6c / aec] 14a0ffff */ bne r5, r0, 0x04001b6c
+/* [04001b6c / aec] 14a0ffff */ bnez r5, 0x04001b6c
 /* [04001b70 / af0] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001b74 / af4] cb131800 */ ldv $v19[0], 0x0(r24)
 /* [04001b78 / af8] 090006e7 */ j 0x04001b9c
@@ -901,7 +901,7 @@ sub_04001518:
 /* [04001d68 / ce8] eb131800 */ sdv $v19[0], 0x0(r24)
 /* [04001d6c / cec] 23defff8 */ addi r30, r30, 0xfff8
 /* [04001d70 / cf0] 40053000 */ mfc0 r5, sp_dma_busy
-/* [04001d74 / cf4] 14a0ffff */ bne r5, r0, 0x04001d74
+/* [04001d74 / cf4] 14a0ffff */ bnez r5, 0x04001d74
 /* [04001d78 / cf8] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001d7c / cfc] 09000443 */ j acmd_next
 /* [04001d80 / d00] 00000000 */ nop
@@ -918,7 +918,7 @@ sub_04001518:
 /* [04001dac / d2c] 0d00045f */ jal dma_read
 /* [04001db0 / d30] 2003004f */ addi r3, r0, 0x4f
 /* [04001db4 / d34] 40053000 */ mfc0 r5, sp_dma_busy
-/* [04001db8 / d38] 14a0ffff */ bne r5, r0, 0x04001db8
+/* [04001db8 / d38] 14a0ffff */ bnez r5, 0x04001db8
 /* [04001dbc / d3c] 40053000 */ mfc0 r5, sp_dma_busy
 /* [04001dc0 / d40] cb142000 */ lqv $v20[0], 0x0(r24)
 /* [04001dc4 / d44] cb152001 */ lqv $v21[0], 0x10(r24)
