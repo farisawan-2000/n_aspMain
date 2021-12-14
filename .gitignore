@@ -1,0 +1,7 @@
+build/*
+scratch_space/*
+*.bin
+tools/armips
+*.txt
+
+
