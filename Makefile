@@ -9,17 +9,17 @@ ifeq ($(NON_MATCHING), 1)
 	DEFINES += -DNON_MATCHING
 endif
 
-all: build/mp3.text.bin
-	@sha1sum -c mp3.sha1
-	@sha1sum -c mp3data.sha1
+all: build/n_aspMain.text.bin
+	@sha1sum -c n_aspMain.text.sha1
+	@sha1sum -c n_aspMain.data.sha1
 
 tools/armips: tools/armips.cpp
 	$(CXX) $(CXXFLAGS) -fno-exceptions -fno-rtti -pipe $^ -o $@ -lpthread $(ARMIPS_FLAGS)
 	chmod +x $@
 
-build/mp3.text.bin: mp3.text.s tools/armips
+build/n_aspMain.text.bin: n_aspMain.text.s tools/armips
 	cpp -P $< -o build/$< -I/usr/include/n64 $(DEFINES)
-	tools/armips -strequ CODE_FILE $@ -strequ DATA_FILE build/mp3.data.bin -temp scratch_space/.t3d  build/$<
+	tools/armips -strequ CODE_FILE $@ -strequ DATA_FILE build/n_aspMain.data.bin -temp scratch_space/.t3d  build/$<
 
 
 dump_binary:
@@ -32,5 +32,5 @@ dump_binary:
 	mips-linux-gnu-objcopy dump/data.elf dump/data.bin -O binary
 
 
-clean: build/mp3.text.bin
+clean: build/n_aspMain.text.bin
 	rm build/ -r
