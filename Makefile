@@ -20,6 +20,8 @@ tools/armips: tools/armips.cpp
 build/n_aspMain.text.bin: n_aspMain.text.s tools/armips
 	cpp -P $< -o build/$< -I/usr/include/n64 $(DEFINES)
 	tools/armips -strequ CODE_FILE $@ -strequ DATA_FILE build/n_aspMain.data.bin -temp scratch_space/.t3d  build/$<
+	mips-linux-gnu-ld -r -b binary build/n_aspMain.text.bin -o build/naudio_text.o
+	mips-linux-gnu-ld -r -b binary build/n_aspMain.data.bin -o build/naudio_data.o
 
 
 dump_binary:
